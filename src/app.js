@@ -1,27 +1,26 @@
 const express = require('express');
 const app = express();
 
-// app.use('/user', (req, res) => {
-//     res.send('Hello from user')
-// })
+const { adminAuth, userAuth } = require('./middlewares/auth');
 
-app.get('/user/:userId/:name/:password', (req, res) => {
-    console.log('Request params::', req.params);
-    console.log('Request Query Paramaters', req.query);
-    res.send({ firstName: 'Aman', lastName: 'Singh' })
-})
 
-// app.post('/user', (req, res) => {
-//     res.send('User data saved successfully in the DB')
-// })
+app.use("/admin", adminAuth);
 
-// app.delete('/user', (req, res) => {
-//     res.send('User Deleted from DB');
-// })
+app.post("/user/login", (req, res) => {
+    res.send("User logged in successfully!");
+});
 
-// app.use('/', (req, res) => {
-//     res.send('Hello from express server');
-// })
+app.get("/user/data", userAuth, (req, res) => {
+    res.send("User Data Sent");
+});
+
+app.get("/admin/getAllData", (req, res) => {
+    res.send("All Data Sent");
+});
+
+app.get("/admin/deleteUser", (req, res) => {
+    res.send("Deleted a user");
+});
 
 app.listen(3000, () => {
     console.log('Server is up and running on port 3000....');
